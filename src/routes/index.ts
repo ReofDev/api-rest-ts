@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { readdir } from 'node:fs/promises';
 
 import { cleanFileName } from '../utils/common';
+import { TYPE_FILE_NAME} from '../const/const'
 
 const PATH_ROUTER = `${__dirname}`;
 const router = Router();
@@ -19,7 +20,7 @@ async function registerRoutes() {
     const files = await readdir(PATH_ROUTER);
 
     const modules: Promise<Module | undefined>[] = files.map(async (fileName) => {
-      if (fileName === 'index.js' || fileName === 'index.ts') {
+      if (fileName === TYPE_FILE_NAME.INDEX_JS || fileName === TYPE_FILE_NAME.INDEX_TS) {
         return undefined; 
       }
 
@@ -33,7 +34,7 @@ async function registerRoutes() {
     loadedModules.forEach((module, index) => {
       const cleanName = cleanFileName(files[index]);
       if (!module || !module.router) {
-        console.warn(`Skipping invalid route module: ${cleanName}`);
+       //console.warn(`Skipping invalid route module: ${cleanName}`);
         return;
       }
 
